@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    <div class="right pr-3">
+        <a href="/auth">Sign In</a>
+    </div>
     <h1 class="center">Stream Videos!</h1>
 
     <div class="controls center">
@@ -15,8 +18,16 @@
         <button id="stop">Stop Capture</button>
     </div>
 
-    <div class="center">
-        <video id="video" autoplay></video>
+    <div class="video-container">
+        <div class="col-6 center">
+            <h1>Capture</h1>
+            <video id="video" autoplay></video>
+        </div>
+        
+        <div class="col-6 center">
+            <h1>Playback</h1>
+            <video id="play-back" autoplay controls></video>
+        </div>
     </div>
 
     <script src="assets/js/main.js"></script>

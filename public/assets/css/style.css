@@ -2,6 +2,23 @@
     text-align: center;
 }
 
+.right {
+    text-align: right;
+}
+
+.video-container {
+    display: flex;
+    margin-top: 2rem;
+}
+
+.col-6 {
+    width: 50%;
+}
+
 video {
-    width: 1000px;
+    width: 80%;
+}
+
+.pr-3 {
+    padding-right: 3rem;
 }
