@@ -1,0 +1,26 @@
+{
+  "name": "video-stream",
+  "version": "1.0.0",
+  "description": "Video streaming prototype",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scbowler/video-streaming.git"
+  },
+  "author": "Scott Bowler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scbowler/video-streaming/issues"
+  },
+  "homepage": "https://github.com/scbowler/video-streaming#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}
