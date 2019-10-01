@@ -8,10 +8,14 @@ const app = express();
 
 app.use(express.static(resolve(__dirname, 'public')));
 
+app.get('/api/test', (req, res) => {
+    res.send({
+        message: 'Test endpoint response'
+    });
+});
+
 app.get('/auth', (req, res) => {
     const url = `https://accounts.google.com/o/oauth2/auth?client_id=${googleConfig.clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A9000%2Fauth%2Fgoogle&scope=https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.upload&response_type=code&access_type=offline`;
-
-    console.log('URL:', url);
 
     res.redirect(url);
 });
@@ -32,10 +36,10 @@ app.get('/auth/google', async (req, res) => {
             }
         });
 
-        console.log('Response:', resp);
+        const { access_token, refresh_token } = resp.data;
 
 
-        res.send('Where will this go?');
+        res.redirect(`/?access_token=${access_token}&refresh_token=${refresh_token}`);
     } catch(err){
         console.log('Auth Error:', err);
         res.status(500).send('It broke');
