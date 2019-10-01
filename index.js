@@ -6,6 +6,8 @@ const googleConfig = require('./config/google');
 
 const app = express();
 
+app.use(express.json());
+
 app.use(express.static(resolve(__dirname, 'public')));
 
 app.get('/api/test', (req, res) => {
@@ -18,6 +20,24 @@ app.get('/auth', (req, res) => {
     const url = `https://accounts.google.com/o/oauth2/auth?client_id=${googleConfig.clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A9000%2Fauth%2Fgoogle&scope=https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.upload&response_type=code&access_type=offline`;
 
     res.redirect(url);
+});
+
+app.post('/auth/refresh', async (req, res) => {
+    const { refreshToken } = req.body;
+
+    try {
+        res.send({
+            message: 'Refresh auth token',
+            refreshToken
+        });
+    } catch(error) {
+        console.log('Error Refreshing token:', err);
+
+        res.status(401).send({
+            message: 'Error refreshing auth token:',
+            error
+        });
+    }
 });
 
 app.get('/auth/google', async (req, res) => {
