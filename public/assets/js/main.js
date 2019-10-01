@@ -103,3 +103,13 @@ function sendChunk(data){
 
     console.log('Data URL:', dataUrl);
 }
+
+function postData(obj) {
+    const params = new URLSearchParams();
+
+    for ([k, v] of Object.entries(obj)) {
+        params.append(k, v);
+    }
+
+    return params;
+}
