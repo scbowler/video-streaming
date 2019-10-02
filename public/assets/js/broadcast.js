@@ -1,12 +1,40 @@
-const BASE_URL = 'https://www.googleapis.com/youtube/v3/liveBroadcasts';
+const BASE_URL = 'https://www.googleapis.com/youtube/v3';
+const BC_URL = BASE_URL + '/liveBroadcasts';
+const LS_URL = BASE_URL + '/liveStreams';
 const PART = 'part=id%2Csnippet%2CcontentDetails%2Cstatus';
+const LS_PART = 'part=id%2Csnippet%2Ccdn%2CcontentDetails%2Cstatus';
 const monitor = document.getElementById('monitor');
+
+async function createStream(){
+    try {
+        const accessToken = getAccessToken();
+
+        const resp = await axios.post(`${LS_URL}?${LS_PART}`, {
+            snippet: {
+                title: 'Test Stream 1'
+            },
+            cdn: {
+                frameRate: 'variable',
+                ingestionType: 'dash',
+                resolution: 'variable'
+            }
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        console.log('Create Stream Response:', resp);
+    } catch(err) {
+        console.log('Error creating stream:', err);
+    }
+}
 
 async function createBroadcast(){
     try {
         const accessToken = getAccessToken();
 
-        const resp = await axios.post(`${BASE_URL}?${PART}`, {
+        const resp = await axios.post(`${BC_URL}?${PART}`, {
             snippet: {
                 scheduledStartTime: new Date('10/1/2019 16:00').toISOString(),
                 title: 'Live Session Broadcast Test October 1st #3'
@@ -34,7 +62,7 @@ async function listBroadcasts(){
 
         console.log('Access Token:', accessToken);
 
-        const resp = await axios.get(`${BASE_URL}?${PART}&mine=true`, {
+        const resp = await axios.get(`${BC_URL}?${PART}&mine=true`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }

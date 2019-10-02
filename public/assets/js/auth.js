@@ -14,6 +14,28 @@ function storeAuthTokens(){
     }
 }
 
+async function refreshAuthToken(){
+    try {
+        const refreshToken = getRefreshToken();
+
+        const resp = await axios.post(`/auth/refresh`, {
+            refreshToken
+        });
+
+        console.log('Refresh Response:', resp);
+
+        const { access_token = null } = resp.data;
+
+        if(!access_token){
+            throw new Error('Did not receive access token');
+        }
+
+        localStorage.setItem('access_token', access_token);
+    } catch(error) {
+        console.log('Refresh Token Error:', error);
+    }
+}
+
 function getQuery(){
     const q = location.search.replace('?', '');
 
@@ -40,4 +62,14 @@ function getAccessToken(){
     }
 
     return accessToken;
+}
+
+function getRefreshToken() {
+    const refreshToken = localStorage.getItem('refresh_token') || null;
+
+    if (!refreshToken) {
+        throw new Error('Not signed in, no refresh token available, click sign in link');
+    }
+
+    return refreshToken;
 }
