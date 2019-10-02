@@ -48,7 +48,8 @@ async function startCapture(){
         console.log('MIME TYPE:', recorder.mimeType);
 
         recorder.addEventListener('dataavailable', function(e){
-            // console.log('Recorder Event:', e);
+            console.log('Recorder Event:', e);
+            console.log('Stream:', stream);
             recordedChunks.push(e.data);
             sendChunk(e.data);
 
@@ -58,11 +59,23 @@ async function startCapture(){
             }
         });
 
+        recorder.addEventListener('start', function(){
+            console.log('Start Called:', arguments);
+            // recorder.requestData();
+            setTimeout(() => {
+                recorder.requestData();
+            }, 300);
+        });
+
         recorder.addEventListener('stop', function(){
             console.log('Recorder Stopped');
         });
 
-        recorder.start(2500);
+        recorder.start(2000);
+
+        // setTimeout(() => {
+        //     recorder.requestData();
+        // }, 300);
 
         console.log('Recorder State:', recorder.state);
 
@@ -98,10 +111,12 @@ function sendChunk(data){
         return;
     }
 
-    // console.log('Data Chunk:', data);
-    const dataUrl = URL.createObjectURL(data);
+    toDataUrl(data);
 
-    console.log('Data URL:', dataUrl);
+    // console.log('Data Chunk:', data);
+    // const dataUrl = URL.createObjectURL(data);
+
+    // console.log('Data URL:', dataUrl);
 }
 
 function postData(obj) {
@@ -112,4 +127,13 @@ function postData(obj) {
     }
 
     return params;
+}
+
+function toDataUrl(data){
+    const f = new FileReader();
+    f.onload = function(e){
+        // console.log(e.target.result);
+    }
+
+    f.readAsDataURL(data);
 }

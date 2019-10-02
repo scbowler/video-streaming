@@ -26,12 +26,27 @@ app.post('/auth/refresh', async (req, res) => {
     const { refreshToken } = req.body;
 
     try {
+        const resp = await axios.post('https://accounts.google.com/o/oauth2/token', postData({
+            client_id: googleConfig.clientId,
+            client_secret: googleConfig.clientSecret,
+            refresh_token: refreshToken,
+            grant_type: 'refresh_token'
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        const { access_token } = resp.data;
+
+        console.log('Access Token:', access_token);
+
         res.send({
             message: 'Refresh auth token',
-            refreshToken
+            access_token
         });
     } catch(error) {
-        console.log('Error Refreshing token:', err);
+        console.log('Error Refreshing token:', error);
 
         res.status(401).send({
             message: 'Error refreshing auth token:',

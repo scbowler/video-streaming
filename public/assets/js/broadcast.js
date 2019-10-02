@@ -1,14 +1,15 @@
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const BC_URL = BASE_URL + '/liveBroadcasts';
-const LS_URL = BASE_URL + '/liveStream';
+const LS_URL = BASE_URL + '/liveStreams';
 const PART = 'part=id%2Csnippet%2CcontentDetails%2Cstatus';
+const LS_PART = 'part=id%2Csnippet%2Ccdn%2CcontentDetails%2Cstatus';
 const monitor = document.getElementById('monitor');
 
 async function createStream(){
     try {
         const accessToken = getAccessToken();
 
-        const resp = await axios.post(`${LS_URL}?${PART}`, {
+        const resp = await axios.post(`${LS_URL}?${LS_PART}`, {
             snippet: {
                 title: 'Test Stream 1'
             },

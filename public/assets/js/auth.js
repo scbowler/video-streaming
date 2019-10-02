@@ -23,6 +23,14 @@ async function refreshAuthToken(){
         });
 
         console.log('Refresh Response:', resp);
+
+        const { access_token = null } = resp.data;
+
+        if(!access_token){
+            throw new Error('Did not receive access token');
+        }
+
+        localStorage.setItem('access_token', access_token);
     } catch(error) {
         console.log('Refresh Token Error:', error);
     }
